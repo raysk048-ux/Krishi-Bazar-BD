@@ -1,0 +1,6 @@
+{
+  "name": "Krishi Bazar BD",
+  "description": "Multi-vendor agricultural e-commerce marketplace for Bangladesh with Admin, Seller, and Buyer portals in Bangla and English.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

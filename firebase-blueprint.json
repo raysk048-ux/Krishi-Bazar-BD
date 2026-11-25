@@ -1,0 +1,194 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user profile with role and delivery details.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID" },
+        "fullName": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["MAIN_ADMIN", "SELLER", "BUYER"] },
+        "blocked": { "type": "boolean" },
+        "defaultAddress": { "type": "string" },
+        "district": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Set via FieldValue.serverTimestamp()" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Set via FieldValue.serverTimestamp()" }
+      },
+      "required": ["userId", "fullName", "phone", "email", "role", "blocked", "defaultAddress", "district", "createdAt", "updatedAt"]
+    },
+    "Shop": {
+      "title": "Shop",
+      "description": "Seller storefront metadata without personal PII.",
+      "type": "object",
+      "properties": {
+        "ownerUserId": { "type": "string" },
+        "shopNameBn": { "type": "string" },
+        "shopNameEn": { "type": "string" },
+        "district": { "type": "string" },
+        "description": { "type": "string" },
+        "imageUri": { "type": "string" },
+        "approvalStatus": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "sellerCommissionAccepted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerUserId", "shopNameBn", "shopNameEn", "district", "description", "imageUri", "approvalStatus", "sellerCommissionAccepted", "createdAt", "updatedAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Marketplace product listed under a verified seller shop.",
+      "type": "object",
+      "properties": {
+        "shopId": { "type": "string" },
+        "sellerUserId": { "type": "string" },
+        "nameBn": { "type": "string" },
+        "nameEn": { "type": "string" },
+        "category": { "type": "string" },
+        "priceBdt": { "type": "number" },
+        "unitLabel": { "type": "string" },
+        "stockQuantity": { "type": "integer" },
+        "description": { "type": "string" },
+        "imageUri": { "type": "string" },
+        "commissionPercentOverride": { "type": "number" },
+        "sellerCommissionAccepted": { "type": "boolean" },
+        "approvalStatus": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "featured": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["shopId", "sellerUserId", "nameBn", "nameEn", "category", "priceBdt", "unitLabel", "stockQuantity", "description", "imageUri", "sellerCommissionAccepted", "approvalStatus", "featured", "createdAt", "updatedAt"]
+    },
+    "CartItem": {
+      "title": "CartItem",
+      "description": "Shopping cart item scoped under user.",
+      "type": "object",
+      "properties": {
+        "buyerUserId": { "type": "string" },
+        "productId": { "type": "string" },
+        "quantity": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["buyerUserId", "productId", "quantity", "createdAt", "updatedAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Multi-vendor order with payment, delivery, and commission settlement.",
+      "type": "object",
+      "properties": {
+        "buyerUserId": { "type": "string" },
+        "buyerName": { "type": "string" },
+        "buyerPhone": { "type": "string" },
+        "deliveryAddress": { "type": "string" },
+        "district": { "type": "string" },
+        "shopId": { "type": "string" },
+        "sellerUserId": { "type": "string" },
+        "deliveryMethod": { "type": "string" },
+        "deliveryCharge": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "paymentStatus": { "type": "string" },
+        "transactionId": { "type": "string" },
+        "senderAccount": { "type": "string" },
+        "orderStatus": { "type": "string" },
+        "grossSubtotal": { "type": "number" },
+        "totalPayable": { "type": "number" },
+        "agreedCommissionTotal": { "type": "number" },
+        "realizedCommissionAmount": { "type": "number" },
+        "sellerNetPayout": { "type": "number" },
+        "commissionStatus": { "type": "string" },
+        "trackingNote": { "type": "string" },
+        "items": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["buyerUserId", "buyerName", "buyerPhone", "deliveryAddress", "district", "shopId", "sellerUserId", "deliveryMethod", "deliveryCharge", "paymentMethod", "paymentStatus", "transactionId", "senderAccount", "orderStatus", "grossSubtotal", "totalPayable", "agreedCommissionTotal", "realizedCommissionAmount", "sellerNetPayout", "commissionStatus", "trackingNote", "items", "createdAt", "updatedAt"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Verified buyer product review.",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "buyerUserId": { "type": "string" },
+        "buyerName": { "type": "string" },
+        "rating": { "type": "integer" },
+        "comment": { "type": "string" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productId", "buyerUserId", "buyerName", "rating", "comment", "published", "createdAt", "updatedAt"]
+    },
+    "Withdrawal": {
+      "title": "Withdrawal",
+      "description": "Seller payout request or Main Admin commission withdrawal.",
+      "type": "object",
+      "properties": {
+        "sellerUserId": { "type": "string" },
+        "shopId": { "type": "string" },
+        "shopName": { "type": "string" },
+        "amountBdt": { "type": "number" },
+        "payoutMethod": { "type": "string" },
+        "payoutAccount": { "type": "string" },
+        "status": { "type": "string" },
+        "adminNote": { "type": "string" },
+        "requestedAt": { "type": "string", "format": "date-time" },
+        "resolvedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["sellerUserId", "shopId", "shopName", "amountBdt", "payoutMethod", "payoutAccount", "status", "adminNote", "requestedAt"]
+    },
+    "PlatformSettings": {
+      "title": "PlatformSettings",
+      "description": "Global platform commission, delivery charges, and banner configuration.",
+      "type": "object",
+      "properties": {
+        "defaultCommissionPercent": { "type": "number" },
+        "minCommissionPercent": { "type": "number" },
+        "maxCommissionPercent": { "type": "number" },
+        "sellerDeliveryChargeBdt": { "type": "number" },
+        "courierDeliveryChargeBdt": { "type": "number" },
+        "siteBannerTitleBn": { "type": "string" },
+        "siteBannerTitleEn": { "type": "string" },
+        "maintenanceNotice": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["defaultCommissionPercent", "minCommissionPercent", "maxCommissionPercent", "sellerDeliveryChargeBdt", "courierDeliveryChargeBdt", "siteBannerTitleBn", "siteBannerTitleEn", "maintenanceNotice", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profiles isolated per UID or Main Admin."
+    },
+    "/users/{userId}/cart/{productId}": {
+      "schema": { "$ref": "#/entities/CartItem" },
+      "description": "User-scoped shopping cart items."
+    },
+    "/shops/{shopId}": {
+      "schema": { "$ref": "#/entities/Shop" },
+      "description": "Seller shops."
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Marketplace products."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Orders scoped to buyer, seller, and Main Admin."
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/Review" },
+      "description": "Published product reviews."
+    },
+    "/withdrawals/{withdrawalId}": {
+      "schema": { "$ref": "#/entities/Withdrawal" },
+      "description": "Seller and Main Admin commission withdrawal records."
+    },
+    "/platform_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/PlatformSettings" },
+      "description": "Global platform commission and delivery settings."
+    }
+  }
+}
